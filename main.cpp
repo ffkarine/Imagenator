@@ -1,5 +1,7 @@
 #include <iostream>
 #include <math.h>
+#include <vector>
+
 #include "Figures.h"
 #include <GLFW/glfw3.h>
 #include <glut.h>
@@ -8,114 +10,162 @@
 
 using namespace std;
 
+class Shape {
+    public:
+        float origin_X, origin_Y, center_X, center_Y, edgeLenght;
+        vector<float> coordinates_X;
+        vector<float> coordinates_Y;
+};
+
+class Square : public Shape {
+    public:
+        // Recebe os parâmetros de entrada e calcula o ponto (vértice) de origem (ponto inferior esquerdo) do quadrado
+        Square(float center_Xc, float center_Yc, float edgeLenghtc)
+        {
+            center_X = center_Xc;
+            center_Y = center_Yc;
+            edgeLenght = edgeLenghtc;
+
+            origin_X = center_X - edgeLenght/2;
+            origin_Y = center_Y - edgeLenght/2;
+        }
+
+        void DrawSquare(GLFWwindow* window)
+        {
+            // width; height
+            int* w = (int*)malloc(sizeof(int)), * h = (int*)malloc(sizeof(int));
+
+            glfwGetWindowSize(window, w, h);
+
+            //Normalizes the square's origin point
+            origin_X = (float)origin_X / (*w);
+            origin_Y = (float)origin_Y / (*h);
+
+            glBegin(GL_LINES);
+
+            glVertex2f(origin_X, origin_Y);
+            glVertex2f(origin_X + float(edgeLenght) / (*w), origin_Y);
+
+            glVertex2f(origin_X + float(edgeLenght) / (*w), origin_Y);
+            glVertex2f(origin_X + float(edgeLenght) / (*w), origin_Y + float(edgeLenght) / (*h));
+
+            glVertex2f(origin_X + float(edgeLenght) / (*w), origin_Y + float(edgeLenght) / (*h));
+            glVertex2f(origin_X, origin_Y + float(edgeLenght) / (*h));
+
+            glVertex2f(origin_X, origin_Y + float(edgeLenght) / (*h));
+            glVertex2f(origin_X, origin_Y);
+
+            glEnd();
+
+            free(w);
+            free(h);
+        }
+};
+
+class Triangle : public Shape
+{
+    public:
+        // Recebe os parâmetros de entrada e calcula o ponto (vértice) de origem (ponto inferior esquerdo) do triângulo
+        Triangle(float center_Xc, float center_Yc, float edgeLenghtc)
+        {
+            center_X = center_Xc;
+            center_Y = center_Yc;
+            edgeLenght = edgeLenghtc;
+
+            origin_X = center_X - edgeLenght/2;
+            origin_Y = center_Y - edgeLenght/3;
+        }   
+
+        void DrawTriangle(GLFWwindow* window)
+        {
+            // width; height
+            int* w = (int*)malloc(sizeof(int)), * h = (int*)malloc(sizeof(int));
+            float triangleHeight = 0;
+
+            glfwGetWindowSize(window, w, h);
+
+            //Normalizes the triangle's origin point
+            origin_X = (float)origin_X / (*w);
+            origin_Y = (float)origin_Y / (*h);
+
+            triangleHeight = sqrt(3) * edgeLenght / 2;
+
+            glBegin(GL_LINES);
+
+            glVertex2f(origin_X, origin_Y);
+            glVertex2f(origin_X + float(edgeLenght) / (*w), origin_Y);
+
+            glVertex2f(origin_X + float(edgeLenght) / (*w), origin_Y);
+            glVertex2f(origin_X + (float(edgeLenght) / (*w)) / 2, origin_Y + float(triangleHeight) / (*h));
+
+            glVertex2f(origin_X + (float(edgeLenght) / (*w)) / 2, origin_Y + float(triangleHeight) / (*h));
+            glVertex2f(origin_X, origin_Y);
+
+            glEnd();
+
+            free(w);
+            free(h);
+        }
+};
+
+class Hexagon : public Shape
+{
+public:
+    // Recebe os parâmetros de entrada e calcula o ponto (vértice) de origem (ponto inferior esquerdo) do triângulo
+    Hexagon(float center_Xc, float center_Yc, float edgeLenghtc)
+    {
+        center_X = center_Xc;
+        center_Y = center_Yc;
+        edgeLenght = edgeLenghtc;
+
+        origin_X = center_X - edgeLenght/2;
+        origin_Y = center_Y - edgeLenght*sqrt(3)/2;
+    }
+
+    void DrawHexagon(GLFWwindow* window)
+    {
+        // width; height
+        int* w = (int*)malloc(sizeof(int)), * h = (int*)malloc(sizeof(int));
+        float edgeHeight = 0, halfEdgeLenght = 0;
+
+        glfwGetWindowSize(window, w, h);
+
+        //Normalizes the triangle's origin point
+        origin_X = (float)origin_X / (*w);
+        origin_Y = (float)origin_Y / (*h);
+
+        halfEdgeLenght = edgeLenght / 2;
+        edgeHeight = sqrt(3) * halfEdgeLenght;
+
+        glBegin(GL_LINES);
+
+        glVertex2f(origin_X, origin_Y);
+        glVertex2f(origin_X + float(edgeLenght) / (*w), origin_Y);
+
+        glVertex2f(origin_X + float(edgeLenght) / (*w), origin_Y);
+        glVertex2f(origin_X + float(edgeLenght + halfEdgeLenght) / (*w), origin_Y + float(edgeHeight) / (*h));
+
+        glVertex2f(origin_X + float(edgeLenght + halfEdgeLenght) / (*w), origin_Y + float(edgeHeight) / (*h));
+        glVertex2f(origin_X + float(edgeLenght) / (*w), origin_Y + float(edgeHeight + edgeHeight) / (*h));
+
+        glVertex2f(origin_X + float(edgeLenght) / (*w), origin_Y + float(edgeHeight + edgeHeight) / (*h));
+        glVertex2f(origin_X, origin_Y + float(edgeHeight + edgeHeight) / (*h));
+
+        glVertex2f(origin_X, origin_Y + float(edgeHeight + edgeHeight) / (*h));
+        glVertex2f(origin_X - float(halfEdgeLenght) / (*w), origin_Y + float(edgeHeight) / (*h));
+
+        glVertex2f(origin_X - float(halfEdgeLenght) / (*w), origin_Y + float(edgeHeight) / (*h));
+        glVertex2f(origin_X, origin_Y);
+
+        glEnd();
+
+        free(w);
+        free(h);
+    }
+
+};
+
 bool canvasAssigned = false;
-
-// MUDAR PONTO DE ORIGEM PARA CENTRO DA FIGURA
-void DrawSquare(GLFWwindow* window, float origin_X, float origin_Y, float edgeLenght)
-{   
-    // width; height
-    int* w = (int*)malloc(sizeof(int)), *h = (int*)malloc(sizeof(int));
-
-    glfwGetWindowSize(window, w, h);
-
-    //Normalizes the square's origin point
-    origin_X = (float)origin_X / (*w);
-    origin_Y = (float)origin_Y / (*h);   
-
-    glBegin(GL_LINES);
-
-    glVertex2f(origin_X, origin_Y);
-    glVertex2f(origin_X + float(edgeLenght)/(*w), origin_Y);
-
-    glVertex2f(origin_X + float(edgeLenght) / (*w), origin_Y);
-    glVertex2f(origin_X + float(edgeLenght)/(*w), origin_Y + float(edgeLenght) / (*h));
-
-    glVertex2f(origin_X + float(edgeLenght)/(*w), origin_Y + float(edgeLenght) / (*h));
-    glVertex2f(origin_X, origin_Y + float(edgeLenght) / (*h));
-
-    glVertex2f(origin_X, origin_Y + float(edgeLenght) / (*h));
-    glVertex2f(origin_X, origin_Y);
-
-    glEnd();
-
-    free(w);
-    free(h);
-}
-
-// MUDAR PONTO DE ORIGEM PARA CENTRO DA FIGURA
-void DrawTriangle(GLFWwindow* window, float origin_X, float origin_Y, float edgeLenght)
-{
-    // width; height
-    int* w = (int*)malloc(sizeof(int)), * h = (int*)malloc(sizeof(int));
-    float triangleHeight = 0;
-
-    glfwGetWindowSize(window, w, h);
-
-    //Normalizes the triangle's origin point
-    origin_X = (float)origin_X / (*w);
-    origin_Y = (float)origin_Y / (*h);
-
-    triangleHeight = sqrt(3) * edgeLenght / 2;
-
-    glBegin(GL_LINES);
-
-    glVertex2f(origin_X, origin_Y);
-    glVertex2f(origin_X + float(edgeLenght)/(*w), origin_Y);
-
-    glVertex2f(origin_X + float(edgeLenght)/(*w), origin_Y);
-    glVertex2f(origin_X + (float(edgeLenght)/(*w))/2, origin_Y + float(triangleHeight)/(*h));
-
-    glVertex2f(origin_X + (float(edgeLenght)/(*w))/2, origin_Y + float(triangleHeight)/(*h));
-    glVertex2f(origin_X, origin_Y);
-
-    glEnd();
-
-    free(w);
-    free(h);
-}
-
-// MUDAR PONTO DE ORIGEM PARA CENTRO DA FIGURA
-void DrawHexagon(GLFWwindow* window, float origin_X, float origin_Y, float edgeLenght)
-{
-    // width; height
-    int* w = (int*)malloc(sizeof(int)), * h = (int*)malloc(sizeof(int));
-    float edgeHeight = 0, halfEdgeLenght = 0;
-
-    glfwGetWindowSize(window, w, h);
-
-    //Normalizes the triangle's origin point
-    origin_X = (float)origin_X / (*w);
-    origin_Y = (float)origin_Y / (*h);
-
-    halfEdgeLenght = edgeLenght / 2;
-    edgeHeight = sqrt(3) * halfEdgeLenght;
-
-    glBegin(GL_LINES);
-
-    glVertex2f(origin_X, origin_Y);
-    glVertex2f(origin_X + float(edgeLenght) / (*w), origin_Y);
-
-    glVertex2f(origin_X + float(edgeLenght) / (*w), origin_Y);
-    glVertex2f(origin_X + float(edgeLenght + halfEdgeLenght)/(*w), origin_Y + float(edgeHeight) / (*h));
-
-    glVertex2f(origin_X + float(edgeLenght + halfEdgeLenght) / (*w), origin_Y + float(edgeHeight) / (*h));
-    glVertex2f(origin_X + float(edgeLenght) / (*w), origin_Y + float(edgeHeight + edgeHeight) / (*h));
-
-    glVertex2f(origin_X + float(edgeLenght) / (*w), origin_Y + float(edgeHeight + edgeHeight) / (*h));
-    glVertex2f(origin_X, origin_Y + float(edgeHeight + edgeHeight) / (*h));
-
-    glVertex2f(origin_X, origin_Y + float(edgeHeight + edgeHeight) / (*h));
-    glVertex2f(origin_X - float(halfEdgeLenght) / (*w), origin_Y + float(edgeHeight) / (*h));
-
-    glVertex2f(origin_X - float(halfEdgeLenght) / (*w), origin_Y + float(edgeHeight) / (*h));
-    glVertex2f(origin_X, origin_Y);
-
-    glEnd();
-
-    free(w);
-    free(h);
-}
-
 
 void display()
 {
@@ -187,9 +237,21 @@ int main(void) {
         //glVertex2f(1, 1);
         //glEnd();
 
-        DrawSquare(window, -250, -250, 200);
-        DrawTriangle(window, 100, -250, 200);
-        DrawHexagon(window, 0, 0, 200);
+        //DrawSquare(window, -250, -250, 200);
+        //DrawTriangle(window, 100, -250, 200);
+        //DrawHexagon(window, 0, 0, 200);
+
+        Square s = Square(0, 0, 400);
+        s.DrawSquare(window);
+
+        Triangle t = Triangle(0, 0, 400);
+        t.DrawTriangle(window);
+
+        Hexagon h = Hexagon(0, 0, 400);
+        h.DrawHexagon(window);
+
+        //DrawTriangle(window, 100, -250, 200);
+        //DrawHexagon(window, 0, 0, 200);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
