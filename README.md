@@ -11,18 +11,24 @@
 ``` diff
 +Só fazer o prompt funcionar certinho.
 ```
+
 - [ ] Permitir ao usuário digitar as coordenadas dos vértices de cada figura. Neste caso, os polígonos a serem desenhados poderão ser irregulares.
 - [ ] Permitir ao usuário utilizar cliques de mouse para determinar os vértices e/ou o centro de cada figura, no caso de polígonos irregulares.
 
-<span style="color:red">Pra esses dois pontos de cima, sobreescrever o método dentro  das classes e fazer só desenhar com os pontos de input.</span>
+``` diff
+-Pra esses dois pontos de cima, sobreescrever o método dentro  das classes e fazer só desenhar com os pontos de input.
+```
 
 - [x] ~~Permitir ao usuário digitar o ponto central e o tamanho da aresta (borda) de cada polígono. Neste caso os polígonos desenhados serão regulares.~~ 
 
-<span style="color:green">Feito. Parabén Karine</span>
-
+``` diff
++Feito. Parabén Karine</span>
+```
 - [ ] Desenhar a figura na tela conforme parâmetros de entrada fornecidos pelo usuário (requisitos R1 a R4). Suportar o desenho e visualização de no mínimo 5 figuras simultaneamente.
 
-<span style="color:yellow">Apenas fazer o controle dos desenhos por um vetor, talvez atraves de um ID(?, possivelmente para controlar as transformações)</span>
+```diff
+!Apenas fazer o controle dos desenhos por um vetor, talvez atraves de um ID(?, possivelmente para controlar as transformações).
+```
 
 - [ ] Permitir escolher qualquer uma das seguintes TGs, a serem realizadas sobre uma figura já desenhada: Translação, Escala, Rotação, Reflexão, Cisalhamento
 - [ ] Conforme a TG escolhida, solicitar ao usuário os parâmetros correspondentes e necessários para realizar a transformação. O usuário deverá poder escolher os parâmetros livremente por digitação (proibido fixar os parâmetros no programa). 
@@ -58,12 +64,16 @@ No caso específico da rotação, a figura deve ser rotacionada sobre o mesmo �
 
     ~~d) Dividir os eixos x e y em 10 segmentos positivos e 10 segmentos negativos, e criar pequenas marcações (um pequeno tracinho) para sinalizar cada divisão.~~
 
-    <span style="color:green">Parabéns Karine!</span>
-    
+```diff
++Parabéns Karine!
+```
+
 - [ ] Permitir ao usuário alternar livremente entre telas de desenho e de entrada de parâmetros.
   
-<span style="color:yellow">acredito que seja simples.</span>
-  
+```diff
+!acredito que seja simples.
+``` 
+
 - [ ] Permitir apagar os polígonos desenhados e redesenhar outros polígonos ou usar outras opções (aplicar mais de uma transformação por exemplo) sem sair do programa.
 
 - [ ] Validar as coordenadas de entrada conforme segue:
@@ -71,4 +81,6 @@ No caso específico da rotação, a figura deve ser rotacionada sobre o mesmo �
     • Não permitir a entrada de pontos repetidos (iguais).
     • Permitir o desenho de polígonos convexos ou côncavos para figuras irregulares.
 
-<span style="color:yellow">acredito que seja simples tb.</span>
+```diff
+!acredito que seja simples tb.
+```
