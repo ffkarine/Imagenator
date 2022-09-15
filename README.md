@@ -8,9 +8,9 @@
 
 # REQUISITOS
 - ~~[x] Permitir ao usuário escolher no mínimo as seguintes figuras geométricas planas regulares a serem desenhadas: Triângulo, Quadrado, Hexágono.~~
-
-<span style="color:green">Só fazer o prompt funcionar certinho.</span>
-
+``` diff
++Só fazer o prompt funcionar certinho.
+```
 - [ ] Permitir ao usuário digitar as coordenadas dos vértices de cada figura. Neste caso, os polígonos a serem desenhados poderão ser irregulares.
 - [ ] Permitir ao usuário utilizar cliques de mouse para determinar os vértices e/ou o centro de cada figura, no caso de polígonos irregulares.
 
