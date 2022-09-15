@@ -54,7 +54,7 @@ No caso específico da rotação, a figura deve ser rotacionada sobre o mesmo �
   Passo 3: Transladar o objeto (pelo centro deste) de volta para o seu local original.
 
 - [ ] Após confirmação do usuário o programa deve aplicar a TG escolhida conforme os parâmetros informados (R5, R6 e R7), e mostrar o resultado na tela.
-- [x]~~ Desenhar um sistema de referência na tela de visualização, com escala indicativa das distâncias, com as seguintes características:~~
+- [x] ~~ Desenhar um sistema de referência na tela de visualização, com escala indicativa das distâncias, com as seguintes características:~~
 
     ~~a) Centralizar o ponto central de coordenadas no centro da tela de visualização.~~
 
