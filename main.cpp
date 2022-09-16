@@ -8,100 +8,98 @@
 
 #define AXIS_TICK_REFERENCE 11
 
-//#include "Canvas.h"
-
 using namespace std;
 
 bool canvasAssigned = false;
 
 class Shape {
-    public:
-        GLFWwindow* shapeWindow;
-        float origin_X, origin_Y, center_X, center_Y, edgeLenght;
-        vector<float> coordinates_X;
-        vector<float> coordinates_Y;
+public:
+    GLFWwindow* shapeWindow;
+    float origin_X, origin_Y, center_X, center_Y, edgeLenght;
+    vector<float> coordinates_X;
+    vector<float> coordinates_Y;
 
-        void drawShape()
-        {
-            glBegin(GL_LINE_LOOP);
+    void drawShape()
+    {
+        glBegin(GL_LINE_LOOP);
 
-            for (int i = 0; i < coordinates_X.size(); i++)
-                glVertex2f(coordinates_X[i], coordinates_Y[i]);
+        for (int i = 0; i < coordinates_X.size(); i++)
+            glVertex2f(coordinates_X[i], coordinates_Y[i]);
 
-            glEnd();
-        }
+        glEnd();
+    }
 };
 
 class Square : public Shape {
-    public:
-        // Recebe os parâmetros de entrada e calcula o ponto (vértice) de origem (ponto inferior esquerdo) do quadrado
-        Square(float center_Xc, float center_Yc, float edgeLenghtc, GLFWwindow* window)
-        {
-            center_X = center_Xc;
-            center_Y = center_Yc;
-            edgeLenght = edgeLenghtc;
-            shapeWindow = window;
+public:
+    // Recebe os parâmetros de entrada e calcula o ponto (vértice) de origem (ponto inferior esquerdo) do quadrado
+    Square(float center_Xc, float center_Yc, float edgeLenghtc, GLFWwindow* window)
+    {
+        center_X = center_Xc;
+        center_Y = center_Yc;
+        edgeLenght = edgeLenghtc;
+        shapeWindow = window;
 
-            origin_X = center_X - edgeLenght/2;
-            origin_Y = center_Y - edgeLenght/2;
+        origin_X = center_X - edgeLenght / 2;
+        origin_Y = center_Y - edgeLenght / 2;
 
-            calculateVertices();
-        }
+        calculateVertices();
+    }
 
-        void calculateVertices()
-        {
-            //int* w = (int*)malloc(sizeof(int)), * h = (int*)malloc(sizeof(int));
+    void calculateVertices()
+    {
+        //int* w = (int*)malloc(sizeof(int)), * h = (int*)malloc(sizeof(int));
 
-            //glfwGetWindowSize(shapeWindow, w, h);
+        //glfwGetWindowSize(shapeWindow, w, h);
 
-            coordinates_X.push_back((origin_X) / AXIS_TICK_REFERENCE);
-            coordinates_Y.push_back((origin_Y) / AXIS_TICK_REFERENCE);
+        coordinates_X.push_back((origin_X) / AXIS_TICK_REFERENCE);
+        coordinates_Y.push_back((origin_Y) / AXIS_TICK_REFERENCE);
 
-            coordinates_X.push_back((origin_X + edgeLenght)/ AXIS_TICK_REFERENCE);
-            coordinates_Y.push_back((origin_Y) / AXIS_TICK_REFERENCE);
+        coordinates_X.push_back((origin_X + edgeLenght) / AXIS_TICK_REFERENCE);
+        coordinates_Y.push_back((origin_Y) / AXIS_TICK_REFERENCE);
 
-            coordinates_X.push_back((origin_X + edgeLenght) / AXIS_TICK_REFERENCE);
-            coordinates_Y.push_back((origin_Y + edgeLenght) / AXIS_TICK_REFERENCE);
+        coordinates_X.push_back((origin_X + edgeLenght) / AXIS_TICK_REFERENCE);
+        coordinates_Y.push_back((origin_Y + edgeLenght) / AXIS_TICK_REFERENCE);
 
-            coordinates_X.push_back((origin_X) / AXIS_TICK_REFERENCE);
-            coordinates_Y.push_back((origin_Y + edgeLenght) / AXIS_TICK_REFERENCE);
-        }
+        coordinates_X.push_back((origin_X) / AXIS_TICK_REFERENCE);
+        coordinates_Y.push_back((origin_Y + edgeLenght) / AXIS_TICK_REFERENCE);
+    }
 };
 
 class Triangle : public Shape
 {
-    public:
-        // Recebe os parâmetros de entrada e calcula o ponto (vértice) de origem (ponto inferior esquerdo) do triângulo
-        Triangle(float center_Xc, float center_Yc, float edgeLenghtc, GLFWwindow* window)
-        {
-            center_X = center_Xc;
-            center_Y = center_Yc;
-            edgeLenght = edgeLenghtc;
-            shapeWindow = window;
+public:
+    // Recebe os parâmetros de entrada e calcula o ponto (vértice) de origem (ponto inferior esquerdo) do triângulo
+    Triangle(float center_Xc, float center_Yc, float edgeLenghtc, GLFWwindow* window)
+    {
+        center_X = center_Xc;
+        center_Y = center_Yc;
+        edgeLenght = edgeLenghtc;
+        shapeWindow = window;
 
-            origin_X = center_X - edgeLenght/2;
-            origin_Y = center_Y - edgeLenght/3;
+        origin_X = center_X - edgeLenght / 2;
+        origin_Y = center_Y - edgeLenght / 3;
 
-            calculateVertices();
-        }
+        calculateVertices();
+    }
 
-        void calculateVertices()
-        {
-            //int* w = (int*)malloc(sizeof(int)), * h = (int*)malloc(sizeof(int));
+    void calculateVertices()
+    {
+        //int* w = (int*)malloc(sizeof(int)), * h = (int*)malloc(sizeof(int));
 
-            //glfwGetWindowSize(shapeWindow, w, h);
+        //glfwGetWindowSize(shapeWindow, w, h);
 
-            float triangleHeight = sqrt(3) * edgeLenght / 2;
+        float triangleHeight = sqrt(3) * edgeLenght / 2;
 
-            coordinates_X.push_back((origin_X) / AXIS_TICK_REFERENCE);
-            coordinates_Y.push_back((origin_Y) / AXIS_TICK_REFERENCE);
+        coordinates_X.push_back((origin_X) / AXIS_TICK_REFERENCE);
+        coordinates_Y.push_back((origin_Y) / AXIS_TICK_REFERENCE);
 
-            coordinates_X.push_back((origin_X + edgeLenght) / AXIS_TICK_REFERENCE);
-            coordinates_Y.push_back((origin_Y) / AXIS_TICK_REFERENCE);
+        coordinates_X.push_back((origin_X + edgeLenght) / AXIS_TICK_REFERENCE);
+        coordinates_Y.push_back((origin_Y) / AXIS_TICK_REFERENCE);
 
-            coordinates_X.push_back((origin_X + edgeLenght/2) / AXIS_TICK_REFERENCE);
-            coordinates_Y.push_back((origin_Y + triangleHeight) / AXIS_TICK_REFERENCE);
-        }
+        coordinates_X.push_back((origin_X + edgeLenght / 2) / AXIS_TICK_REFERENCE);
+        coordinates_Y.push_back((origin_Y + triangleHeight) / AXIS_TICK_REFERENCE);
+    }
 };
 
 class Hexagon : public Shape
@@ -114,8 +112,8 @@ public:
         center_Y = center_Yc;
         edgeLenght = edgeLenghtc;
 
-        origin_X = center_X - edgeLenght/2;
-        origin_Y = center_Y - edgeLenght*sqrt(3)/2;
+        origin_X = center_X - edgeLenght / 2;
+        origin_Y = center_Y - edgeLenght * sqrt(3) / 2;
 
         calculateVertices();
     }
@@ -167,12 +165,12 @@ void drawAxis(GLFWwindow* window)
     for (int i = -10; i <= 10; i++)
     {
         // Ticks eixo X
-        glVertex2f((float(i)/AXIS_TICK_REFERENCE), float(-tickSize)/(*h));
-        glVertex2f((float(i)/AXIS_TICK_REFERENCE), float(tickSize)/(*h));
+        glVertex2f((float(i) / AXIS_TICK_REFERENCE), float(-tickSize) / (*h));
+        glVertex2f((float(i) / AXIS_TICK_REFERENCE), float(tickSize) / (*h));
 
         // Ticks eixo Y
-        glVertex2f(float(-tickSize)/(*w), (float(i)/AXIS_TICK_REFERENCE));
-        glVertex2f(float(tickSize)/(*w), (float(i)/AXIS_TICK_REFERENCE));
+        glVertex2f(float(-tickSize) / (*w), (float(i) / AXIS_TICK_REFERENCE));
+        glVertex2f(float(tickSize) / (*w), (float(i) / AXIS_TICK_REFERENCE));
     }
 
 
@@ -221,9 +219,38 @@ void init()
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
+//Initial prompt for basic option selection
+int prompt() {
+    int mainOption;
+
+    cout << "Choose your option:" << endl;
+    cout << "1 - Draw Figure" << endl;
+    cout << "2 - Transform Figure" << endl;
+    cout << "3 - Delete Figure" << endl;
+    cin >> mainOption;
+
+    return mainOption;
+}
+
+//Prompt for type of input for new shape
+int promptInput() {
+    int inputOption;
+
+    cout << "\nChoose how to input the points:" << endl;
+    cout << "1 - Type points" << endl;
+    cout << "2 - Click on Screen" << endl;
+    cout << "3 - Type center and size" << endl;
+    cin >> inputOption;
+
+    return inputOption;
+}
+
 int main(void) {
     GLFWwindow* window;
     int command;
+    //Vector for controling the number of shapes after adding or excluding
+    vector<int> figures;
+    int control = 0;
 
     /* Initialize the library */
     if (!glfwInit())
@@ -243,30 +270,85 @@ int main(void) {
     while (!glfwWindowShouldClose(window)) {
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
-
+        
         glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
         glLoadIdentity(); //Reset the drawing perspective
 
         drawAxis(window);
 
-        ///////////////////////////////////////////////////////////////////////////////////////
-        ///// LEMBRAR DE LIMITAR AS ENTRADAS SOMENTE PARA O INTERVALO DOS EIXOS (-10, 10) /////
-        ///////////////////////////////////////////////////////////////////////////////////////
+        //Initial prompt for basic option selection
+        int mainOption = prompt();
 
-        Square s = Square(0, 0, 6, window);
-        s.drawShape();
+        //If adding shape option was selected
+        if (mainOption == 1) {
+            //verify current number of shapes
+            if (figures.size() == 5) {
+                cout << "Reached max number of figures" << endl;
+            }
+            else {
+                //Prompt for type of input for new shape
+                int inputOption = promptInput();
 
-        Triangle t = Triangle(0, 0, 4, window);
-        t.drawShape();
+                //If option of typing center coordinates and size was selected
+                if (inputOption == 3) {
+                    int shapeOption;
+                    float centerX, centerY, size;
 
-        Hexagon h = Hexagon(0, 0, 6, window);
-        h.drawShape();
+                    cout << "\nChoose Figure Type:" << endl;
+                    cout << "1 - Rectangle" << endl;
+                    cout << "2 - Triangle" << endl;
+                    cout << "3 - Hexagon" << endl;
+                    cin >> shapeOption;
+
+                    cout << "\nType center (X and Y):" << endl;
+                    cin >> centerX >> centerY;
+
+                    cout << "\nType size:" << endl;
+                    cin >> size;
+
+                    //Limit coordinates and size to be inside the screen
+                    while (((centerX > 10) or (centerX < -10)) or ((centerY > 10) or (centerY < -10)) or (size > 10)) {
+                        cout << "Coordinates and size must be in the interval of -10 and 10, type X and Y again:" << endl;
+                        cin >> centerX >> centerY;
+
+                        cout << "\nType size:" << endl;
+                        cin >> size;
+                    }
+
+                    //Call drawing methods for each option and adding 1 to the control vector
+                    if (shapeOption == 1) {
+                        Square s = Square(centerX, centerY, size, window);
+                        s.drawShape();
+                        
+                        figures.push_back(1);
+                    }
+                    else if (shapeOption == 2) {
+                        Triangle t = Triangle(0, 0, 4, window);
+                        t.drawShape();
+                        figures.push_back(1);
+                    }
+                    else if (shapeOption == 3) {
+                        Hexagon h = Hexagon(0, 0, 6, window);
+                        h.drawShape();
+                        figures.push_back(1);
+                    }
+                }
+                else{
+                    cout << "fazer o resto kkk";
+                }
+            }
+        }
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
 
         /* Poll for and process events */
         glfwPollEvents();
+        control += 1;
+        ///////////////////////////////////////////////////////////////////////////////////////
+        ///// LEMBRAR DE LIMITAR AS ENTRADAS SOMENTE PARA O INTERVALO DOS EIXOS (-10, 10) /////
+        ///////////////////////////////////////////////////////////////////////////////////////
+
     }
 
     //cout << "Escolha uma opção:\n";
