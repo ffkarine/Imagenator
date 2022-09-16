@@ -5,7 +5,10 @@
 #include <GLFW/glfw3.h>
 #include <glut.h>
 
-#define AXIS_TICK_REFERENCE 11
+#define CANVAS_SIZE 10
+#define AXIS_TICK_REFERENCE (CANVAS_SIZE + 1)
+#define MAX_FIGURES 5
+
 
 using namespace std;
 
@@ -17,6 +20,17 @@ public:
     float origin_X, origin_Y, center_X, center_Y, edgeLenght;
     vector<float> coordinates_X;
     vector<float> coordinates_Y;
+
+    Shape() = default;
+
+    Shape(vector<float> x, vector<float> y)
+    {
+        for (int i = 0; i < x.size(); i++)
+        {
+            coordinates_X.push_back(x[i] / AXIS_TICK_REFERENCE);
+            coordinates_Y.push_back(y[i] / AXIS_TICK_REFERENCE);
+        }
+    }
 
     void drawShape()
     {
@@ -222,7 +236,7 @@ void init()
 int prompt() {
     int mainOption;
 
-    cout << "Choose your option:" << endl;
+    cout << "\nChoose your option:" << endl;
     cout << "1 - Draw Figure" << endl;
     cout << "2 - Transform Figure" << endl;
     cout << "3 - Delete Figure" << endl;
@@ -246,10 +260,11 @@ int promptInput() {
 
 int main(void) {
     GLFWwindow* window;
-    int command;
-    //Vector for controling the number of shapes after adding or excluding
-    vector<int> figures;
-    int control = 0;
+    vector<Shape> shapes;
+    vector<float> x_shape;
+    vector<float> y_shape;
+    int control = 0, inputOption = 0, mainOption = 0, auxInput = 0;
+    float auxX, auxY;
 
     /* Initialize the library */
     if (!glfwInit())
@@ -276,20 +291,60 @@ int main(void) {
         drawAxis(window);
 
         //Initial prompt for basic option selection
-        int mainOption = prompt();
+        mainOption = prompt();
 
         //If adding shape option was selected
         if (mainOption == 1) {
             //verify current number of shapes
-            if (figures.size() == 5) {
+            if (shapes.size() == MAX_FIGURES) {
                 cout << "\nReached max number of figures" << endl;
             }
             else {
                 //Prompt for type of input for new shape
-                int inputOption = promptInput();
+                inputOption = promptInput();
+
+                if (inputOption == 1)
+                {
+                    while (auxInput != 2)
+                    {
+                        cout << "\n1 - New point" << endl;
+                        cout << "2 - Stop Drawing (If less than 3 points were entered no drawing will be generated)." << endl;
+                        cin >> auxInput;
+
+                        if (auxInput == 1)
+                        {
+                            cout << "X : ";
+                            cin >> auxX;
+
+                            cout << "Y : ";
+                            cin >> auxY;
+
+                            while (((auxX > CANVAS_SIZE) or (auxX < -CANVAS_SIZE)) or ((auxY > CANVAS_SIZE) or (auxY < -CANVAS_SIZE))) {
+                                cout << "\nCoordinates and size must be in the interval of -" << CANVAS_SIZE << " and " << CANVAS_SIZE << ", type X and Y again:" << endl;
+                                cin >> auxX >> auxY;
+                            }
+
+                            x_shape.push_back(auxX);
+                            y_shape.push_back(auxY);
+                        }
+                    }
+
+                    if (x_shape.size() < 3)
+                        cout << "\nLess than 3 points entered. NO drawing will be generated!" << endl;
+
+                    else
+                    {
+                        Shape sh = Shape(x_shape, y_shape);
+                        shapes.push_back(sh);
+                    }
+
+                    x_shape.clear();
+                    y_shape.clear();
+                    auxInput = 0;
+                }
 
                 //If option of typing center coordinates and size was selected
-                if (inputOption == 3) {
+                else if (inputOption == 3) {
                     int shapeOption;
                     float centerX, centerY, size;
 
@@ -306,8 +361,8 @@ int main(void) {
                     cin >> size;
 
                     //Limit coordinates and size to be inside the screen
-                    while (((centerX > 10) or (centerX < -10)) or ((centerY > 10) or (centerY < -10)) or (size > 10)) {
-                        cout << "\nCoordinates and size must be in the interval of -10 and 10, type X and Y again:" << endl;
+                    while (((centerX > CANVAS_SIZE) or (centerX < -CANVAS_SIZE)) or ((centerY > CANVAS_SIZE) or (centerY < -CANVAS_SIZE)) or (size > CANVAS_SIZE)) {
+                        cout << "\nCoordinates and size must be in the interval of -" << CANVAS_SIZE << " and " << CANVAS_SIZE << ", type X and Y again:" << endl;
                         cin >> centerX >> centerY;
 
                         cout << "\nType size:" << endl;
@@ -317,19 +372,15 @@ int main(void) {
                     //Call drawing methods for each option and adding 1 to the control vector
                     if (shapeOption == 1) {
                         Square s = Square(centerX, centerY, size, window);
-                        s.drawShape();
-                        
-                        figures.push_back(1);
+                        shapes.push_back(s);
                     }
                     else if (shapeOption == 2) {
                         Triangle t = Triangle(centerX, centerY, size, window);
-                        t.drawShape();
-                        figures.push_back(1);
+                        shapes.push_back(t);
                     }
                     else if (shapeOption == 3) {
                         Hexagon h = Hexagon(centerX, centerY, size, window);
-                        h.drawShape();
-                        figures.push_back(1);
+                        shapes.push_back(h);
                     }
                 }
                 else{
@@ -338,25 +389,23 @@ int main(void) {
             }
         }
 
+        for (int i = 0; i < shapes.size(); i++)
+            shapes[i].drawShape();
+
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
 
         /* Poll for and process events */
         glfwPollEvents();
         control += 1;
+
         ///////////////////////////////////////////////////////////////////////////////////////
-        ///// LEMBRAR DE LIMITAR AS ENTRADAS SOMENTE PARA O INTERVALO DOS EIXOS (-10, 10) /////
+
+        /////                     PROIBIR INPUT DE PONTOS IGUAIS                          /////
+
         ///////////////////////////////////////////////////////////////////////////////////////
 
     }
-
-    //cout << "Escolha uma opção:\n";
-    //cout << "1 - Desenhar forma geométrica:";
-    //cin >> command;
-
-    //if (command == 1) {
-    //    cout << "desenhar";
-    //}
 
     glfwTerminate();
     return 0;
