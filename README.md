@@ -3,21 +3,24 @@
 - [x] ~~Fazer o GLFW e GLUT funcionarem no projeto~~
 - [x] ~~Criar um repositório pro projeto~~
 - [x] ~~Criar uma To Do List~~
-- [ ] Todo o resto kkkkkkkkkkkkkkkkkk
-- [x] Já fizemo bastante coisa po  
+- [x] Já fizemo bastante coisa po
+- [ ] FAZER A DOCUMENTAÇÃO (E A APRESENTAÇÃO):
+
+    a) Diagrama de Classes;
+    
+    b) Diagrama de fluxo de software;
+    
+    c) features do programa (basicamente os requisitos que ele pediu);
+    
 
 # REQUISITOS
-- ~~[x] Permitir ao usuário escolher no mínimo as seguintes figuras geométricas planas regulares a serem desenhadas: Triângulo, Quadrado, Hexágono.~~
+- [x] ~~Permitir ao usuário escolher no mínimo as seguintes figuras geométricas planas regulares a serem desenhadas: Triângulo, Quadrado, Hexágono.~~
 ``` diff
 +Só fazer o prompt funcionar certinho.
 ```
 
-- [ ] Permitir ao usuário digitar as coordenadas dos vértices de cada figura. Neste caso, os polígonos a serem desenhados poderão ser irregulares.
+- [x] ~~Permitir ao usuário digitar as coordenadas dos vértices de cada figura. Neste caso, os polígonos a serem desenhados poderão ser irregulares.~~
 - [ ] Permitir ao usuário utilizar cliques de mouse para determinar os vértices e/ou o centro de cada figura, no caso de polígonos irregulares.
-
-``` diff
--Pra esses dois pontos de cima, sobreescrever o método dentro  das classes e fazer só desenhar com os pontos de input.
-```
 
 - [x] ~~Permitir ao usuário digitar o ponto central e o tamanho da aresta (borda) de cada polígono. Neste caso os polígonos desenhados serão regulares.~~ 
 
@@ -25,10 +28,6 @@
 +Feito. Parabén Karine</span>
 ```
 - [ ] Desenhar a figura na tela conforme parâmetros de entrada fornecidos pelo usuário (requisitos R1 a R4). Suportar o desenho e visualização de no mínimo 5 figuras simultaneamente.
-
-```diff
-!Apenas fazer o controle dos desenhos por um vetor, talvez atraves de um ID(?, possivelmente para controlar as transformações).
-```
 
 - [ ] Permitir escolher qualquer uma das seguintes TGs, a serem realizadas sobre uma figura já desenhada: Translação, Escala, Rotação, Reflexão, Cisalhamento
 - [ ] Conforme a TG escolhida, solicitar ao usuário os parâmetros correspondentes e necessários para realizar a transformação. O usuário deverá poder escolher os parâmetros livremente por digitação (proibido fixar os parâmetros no programa). 
@@ -54,7 +53,7 @@ No caso específico da rotação, a figura deve ser rotacionada sobre o mesmo �
   Passo 3: Transladar o objeto (pelo centro deste) de volta para o seu local original.
 
 - [ ] Após confirmação do usuário o programa deve aplicar a TG escolhida conforme os parâmetros informados (R5, R6 e R7), e mostrar o resultado na tela.
-- [x] ~~ Desenhar um sistema de referência na tela de visualização, com escala indicativa das distâncias, com as seguintes características:~~
+- [x] ~~Desenhar um sistema de referência na tela de visualização, com escala indicativa das distâncias, com as seguintes características:~~
 
     ~~a) Centralizar o ponto central de coordenadas no centro da tela de visualização.~~
 
