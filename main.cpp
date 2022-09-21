@@ -753,6 +753,17 @@ int main(void) {
         // Deletion option selected
         else if (mainOption == 3)
         {
+            selectedShapeId = selectShape(window, shapes);
+
+            if (selectedShapeId != -1)
+            {
+                cout << "\nConfirm deletion of the selected shape?";
+                cout << "\n1 - Yes \n2 - No \n: ";
+                cin >> auxInput;
+
+                if (auxInput == 1)
+                    shapes.erase(shapes.begin() + selectedShapeId);
+            }
         }
     }
 
