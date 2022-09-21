@@ -25,9 +25,9 @@
 ```
 - [ ] Desenhar a figura na tela conforme parâmetros de entrada fornecidos pelo usuário (requisitos R1 a R4). Suportar o desenho e visualização de no mínimo 5 figuras simultaneamente.
 
-- [ ] Permitir escolher qualquer uma das seguintes TGs, a serem realizadas sobre uma figura já desenhada: Translação, Escala, Rotação, Reflexão, Cisalhamento
-- [ ] Conforme a TG escolhida, solicitar ao usuário os parâmetros correspondentes e necessários para realizar a transformação. O usuário deverá poder escolher os parâmetros livremente por digitação (proibido fixar os parâmetros no programa). 
-As seguintes funcionalidades devem ser implementadas para cada TG:  
+- [x] ~~Permitir escolher qualquer uma das seguintes TGs, a serem realizadas sobre uma figura já desenhada: Translação, Escala, Rotação, Reflexão, Cisalhamento~~
+- [x] ~~Conforme a TG escolhida, solicitar ao usuário os parâmetros correspondentes e necessários para realizar a transformação. O usuário deverá poder escolher os parâmetros livremente por digitação (proibido fixar os parâmetros no programa). 
+As seguintes funcionalidades devem ser implementadas para cada TG:~~
 
     a) ~~Translação: permitir a translação positiva ou negativa em qualquer direção a  escolha do usuário (eixo x, o eixo y).~~
 
@@ -48,7 +48,7 @@ No caso específico da rotação, a figura deve ser rotacionada sobre o mesmo �
 
   ~~Passo 3: Transladar o objeto (pelo centro deste) de volta para o seu local original.~~
 
-- [ ] Após confirmação do usuário o programa deve aplicar a TG escolhida conforme os parâmetros informados (R5, R6 e R7), e mostrar o resultado na tela.
+- [x] ~~Após confirmação do usuário o programa deve aplicar a TG escolhida conforme os parâmetros informados (R5, R6 e R7), e mostrar o resultado na tela.~~
 - [x] ~~Desenhar um sistema de referência na tela de visualização, com escala indicativa das distâncias, com as seguintes características:~~
 
     ~~a) Centralizar o ponto central de coordenadas no centro da tela de visualização.~~
@@ -81,5 +81,5 @@ No caso específico da rotação, a figura deve ser rotacionada sobre o mesmo �
     c) ~~Permitir o desenho de polígonos convexos ou côncavos para figuras irregulares.~~
 
 ```diff
-!acredito que seja simples tb.
+!só falta fazer p/ o mouse input
 ```
