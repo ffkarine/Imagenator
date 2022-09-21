@@ -70,7 +70,7 @@ No caso específico da rotação, a figura deve ser rotacionada sobre o mesmo �
 !Tem que corrigir o bloqueio da tela aqui (quando o prompt está esperando por um input do usuário)
 ``` 
 
-- [ ] Permitir apagar os polígonos desenhados e redesenhar outros polígonos ou usar outras opções (aplicar mais de uma transformação por exemplo) sem sair do programa.
+- [x] ~~Permitir apagar os polígonos desenhados e redesenhar outros polígonos ou usar outras opções (aplicar mais de uma transformação por exemplo) sem sair do programa.~~
 
 - [ ] Validar as coordenadas de entrada conforme segue:
 
