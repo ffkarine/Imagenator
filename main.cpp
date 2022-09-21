@@ -441,11 +441,8 @@ int main(void) {
         return -1;
     }
 
-    for (int i = 0; i < MAX_FIGURES; i++)
-    {
-        Square s = Square(0 / AXIS_TICK_REFERENCE, 0 / AXIS_TICK_REFERENCE, double(i)/(12.75 * AXIS_TICK_REFERENCE), window);
-        shapes.push_back(s);
-    }
+    //Square s = Square(-5.0 / AXIS_TICK_REFERENCE, -5.0 / AXIS_TICK_REFERENCE, 3.0 / AXIS_TICK_REFERENCE, window);
+    //shapes.push_back(s);
     //Triangle t = Triangle(3.0 / AXIS_TICK_REFERENCE, 3.0 / AXIS_TICK_REFERENCE, 3.0 / AXIS_TICK_REFERENCE, window);
     //shapes.push_back(t);
     //Hexagon h = Hexagon(5.0 / AXIS_TICK_REFERENCE, -3.0 / AXIS_TICK_REFERENCE, 2.0 / AXIS_TICK_REFERENCE, window);
@@ -753,11 +750,10 @@ int main(void) {
 
 
 
-        //shapes[0].translateShape(double(2)/AXIS_TICK_REFERENCE, double(2)/AXIS_TICK_REFERENCE);
-        //shapes[0].rotateShape(-45);
-        //shapes[0].scaleShape(double(0.5));
-        //shapes[0].mirrorShape('y');
-        //shapes[0].shearShape('x', double(4)/AXIS_TICK_REFERENCE);
+        // Deletion option selected
+        else if (mainOption == 3)
+        {
+        }
     }
 
     glfwTerminate();
