@@ -3,17 +3,14 @@
 #include <iostream>
 #include <math.h>
 #include <vector>
-
 #include <GLFW/glfw3.h>
 #include <glut.h>
 
 #define CANVAS_SIZE 10
 #define AXIS_TICK_REFERENCE (CANVAS_SIZE + 1)
-#define MAX_FIGURES 5
+#define MAX_FIGURES 255
 
 using namespace std;
-
-bool canvasAssigned = false;
 
 class Shape {
 public:
@@ -33,12 +30,17 @@ public:
         }
     }
 
-    void drawShape()
+    void drawShape(bool isColored = false)
     {
         glBegin(GL_LINE_LOOP);
 
+        if (isColored)
+            glColor3f( 75.0/255, 152.0/255, 240.0/255 );
+
         for (int i = 0; i < coordinates_X.size(); i++)
             glVertex2f(coordinates_X[i], coordinates_Y[i]);
+
+        glColor3f(1, 1, 1);
 
         glEnd();
     }
@@ -315,59 +317,108 @@ void drawAxis(GLFWwindow* window)
     free(h);
 }
 
-void display()
+int selectShape(GLFWwindow* window, vector<Shape> shapes)
 {
-    glClear(GL_COLOR_BUFFER_BIT);
+    int userInput = 0;
 
-    glPushMatrix();
+    cout << "\nPerform operation on selected shape?" << endl;
+    cout << "\n1 - Next shape \n2 - Confirm" << endl;
+        
+    for (int i = 0; i < shapes.size(); i++)
+    {
+        userInput = 0;
+        glClear(GL_COLOR_BUFFER_BIT);
 
-    // Rescale to "pixel" scale - position (x, y) is x pixels along, y pixels up
-    // Allows user to resize window without stretching UI elements
-    glScalef((double)(800) / (double)(glutGet(GLUT_WINDOW_WIDTH)), (double)(800) / (double)(glutGet(GLUT_WINDOW_HEIGHT)), 1.0f);
+        glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
+        glLoadIdentity(); //Reset the drawing perspective
 
-    glPopMatrix();
+        drawAxis(window);
 
-    glutSwapBuffers();
-}
+        for (int j = 0; j < shapes.size(); j++)
+        {
+            if (j == i)
+                shapes[j].drawShape(true);
 
-void init()
-{
-    // Enable transparency (e.g. black semi-transparent cover over screen appears with dialogues)
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            else
+                shapes[j].drawShape();
+        }
 
-    // Set initial scale for window coordinates
-    //gluOrtho2D(0, glutGet(GLUT_WINDOW_WIDTH), 0, glutGet(GLUT_WINDOW_HEIGHT));
+        /* Swap front and back buffers */
+        glfwSwapBuffers(window);
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        /* Poll for and process events */
+        glfwPollEvents();
+
+        while (userInput != 1 and userInput != 2)
+        {
+            cout << ": ";
+            cin >> userInput;
+        }
+
+        if (userInput == 2)
+            return i;
+    }
+
+    cout << "\nNo shape selected. Operation cancelled!" << endl;
+    return -1;
 }
 
 //Initial prompt for basic option selection
-int prompt() {
-    int mainOption;
+int prompt() 
+{
+    int mainOption = 0;
 
     cout << "\nChoose your option:" << endl;
     cout << "1 - Draw Figure" << endl;
     cout << "2 - Transform Figure" << endl;
-    cout << "3 - Delete Figure" << endl;
-    cin >> mainOption;
+    cout << "3 - Delete Figure";
+    
+    while (mainOption < 1 or mainOption > 3)
+    {
+        cout << "\n: ";
+        cin >> mainOption;
+    }
 
     return mainOption;
 }
 
 //Prompt for type of input for new shape
-int promptInput() {
-    int inputOption;
+int promptInput() 
+{
+    int inputOption = 0;
 
     cout << "\nChoose how to input the points:" << endl;
     cout << "1 - Type points" << endl;
     cout << "2 - Click on Screen" << endl;
-    cout << "3 - Type center and size" << endl;
-    cin >> inputOption;
+    cout << "3 - Type center and size";
+    
+    while (inputOption < 1 or inputOption > 3)
+    {
+        cout << "\n: ";
+        cin >> inputOption;
+    }
 
     return inputOption;
+}
+
+int transformationPrompt()
+{
+    int transformationOption = 0;
+
+    cout << "\nChoose a transformation to perform:" << endl;
+    cout << "1 - Translation" << endl;
+    cout << "2 - Rotation" << endl;
+    cout << "3 - Scaling" << endl;
+    cout << "4 - Mirroring" << endl;
+    cout << "5 - Shearing";
+
+    while(transformationOption < 1 or transformationOption > 5)
+    {
+        cout << "\n: ";
+        cin >> transformationOption;
+    }
+
+    return transformationOption;
 }
 
 int main(void) {
@@ -375,8 +426,8 @@ int main(void) {
     vector<Shape> shapes;
     vector<double> x_shape;
     vector<double> y_shape;
-    int control = 0, inputOption = 0, mainOption = 0, auxInput = 0;
-    double auxX, auxY;
+    int selectedShapeId = -1, inputOption = 0, mainOption = 0, auxInput = 0, transformationInput = 0;
+    double auxX, auxY, auxTransform;
     bool isPointRepeated = false;
 
     /* Initialize the library */
@@ -389,6 +440,16 @@ int main(void) {
         glfwTerminate();
         return -1;
     }
+
+    for (int i = 0; i < MAX_FIGURES; i++)
+    {
+        Square s = Square(0 / AXIS_TICK_REFERENCE, 0 / AXIS_TICK_REFERENCE, double(i)/(12.75 * AXIS_TICK_REFERENCE), window);
+        shapes.push_back(s);
+    }
+    //Triangle t = Triangle(3.0 / AXIS_TICK_REFERENCE, 3.0 / AXIS_TICK_REFERENCE, 3.0 / AXIS_TICK_REFERENCE, window);
+    //shapes.push_back(t);
+    //Hexagon h = Hexagon(5.0 / AXIS_TICK_REFERENCE, -3.0 / AXIS_TICK_REFERENCE, 2.0 / AXIS_TICK_REFERENCE, window);
+    //shapes.push_back(h);
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
@@ -414,9 +475,11 @@ int main(void) {
             glfwPollEvents();
 
         //////////// END OF DRAWING ZONE ////////////
-
+        
         //Initial prompt for basic option selection
         mainOption = prompt();
+
+
 
         //If adding shape option was selected
         if (mainOption == 1) {
@@ -435,22 +498,24 @@ int main(void) {
                     {
                         isPointRepeated = false;
 
+                        // Invalid value to enter on the input point 'while';
+                        auxX = -AXIS_TICK_REFERENCE;
+                        auxY = -AXIS_TICK_REFERENCE;
+
                         cout << "\n1 - New point" << endl;
                         cout << "2 - Stop Drawing (If less than 3 points were entered no drawing will be generated)." << endl;
                         cin >> auxInput;
 
-                        // Adding a new poit to the shape
+                        // Adding a new point to the shape
                         if (auxInput == 1)
                         {
-                            cout << "X : ";
-                            cin >> auxX;
-
-                            cout << "Y : ";
-                            cin >> auxY;
-
                             while (((auxX > CANVAS_SIZE) or (auxX < -CANVAS_SIZE)) or ((auxY > CANVAS_SIZE) or (auxY < -CANVAS_SIZE))) {
-                                cout << "\nCoordinates and size must be in the interval of -" << CANVAS_SIZE << " and " << CANVAS_SIZE << ", type X and Y again:" << endl;
-                                cin >> auxX >> auxY;
+                                cout << "\nCoordinates must be in the interval of -" << CANVAS_SIZE << " and " << CANVAS_SIZE << "." << endl;
+                                cout << "X : ";
+                                cin >> auxX;
+
+                                cout << "Y : ";
+                                cin >> auxY;
                             }
 
                             for (int i = 0; i < x_shape.size(); i++)
@@ -476,13 +541,19 @@ int main(void) {
                     // Set center and origin of the shape and create it
                     else
                     {
-                        cout << "\nType center (X and Y):" << endl;
+                        // Invalid value to enter on the input point 'while';
+                        auxX = -AXIS_TICK_REFERENCE;
+                        auxY = -AXIS_TICK_REFERENCE;
 
-                        cin >> auxX >> auxY;
+                        cout << "\nType center point." << endl;
 
                         while (((auxX > CANVAS_SIZE) or (auxX < -CANVAS_SIZE)) or ((auxY > CANVAS_SIZE) or (auxY < -CANVAS_SIZE))) {
-                            cout << "\nCoordinates must be in the interval of -" << CANVAS_SIZE << " and " << CANVAS_SIZE << ", type X and Y again:" << endl;
-                            cin >> auxX >> auxY;
+                            cout << "\nCoordinates must be in the interval of -" << CANVAS_SIZE << " and " << CANVAS_SIZE << "." << endl;
+                            cout << "X : ";
+                            cin >> auxX;
+
+                            cout << "Y : ";
+                            cin >> auxY;
                         }
                         
                         Shape sh = Shape(x_shape, y_shape);
@@ -551,11 +622,142 @@ int main(void) {
             }
         }
 
+
+
+        //Transformation option selected
+        else if (mainOption == 2)
+        {
+            auxX = -30;
+            auxY = -30;
+            transformationInput = transformationPrompt();
+            selectedShapeId = selectShape(window, shapes);
+            
+            if (selectedShapeId != -1)
+            {
+                // Invalid value to enter on the input point 'while';
+                auxX = -AXIS_TICK_REFERENCE;
+                auxY = -AXIS_TICK_REFERENCE;
+
+                switch (transformationInput)
+                {
+                    // Translation Transformation
+                    case 1:
+                        cout << "\nType the destination point (relative to the center of the figure)" << endl;
+
+                        while (((auxX > CANVAS_SIZE) or (auxX < -CANVAS_SIZE)) or ((auxY > CANVAS_SIZE) or (auxY < -CANVAS_SIZE))) {
+                            cout << "\nCoordinates must be in the interval of -" << CANVAS_SIZE << " and " << CANVAS_SIZE << "." << endl;
+                            cout << "X : ";
+                            cin >> auxX;
+
+                            cout << "\nY : ";
+                            cin >> auxY;
+                        }
+
+                        shapes[selectedShapeId].translateShape((auxX/AXIS_TICK_REFERENCE - shapes[selectedShapeId].center_X), (auxY/AXIS_TICK_REFERENCE - shapes[selectedShapeId].center_Y));
+                        break;
+
+                    // Rotation Transformation
+                    case 2:
+                        cout << "\nType the angle (in degrees) to rotate the shape:" << endl;
+                        cout << ": ";
+                        cin >> auxTransform;
+
+                        shapes[selectedShapeId].rotateShape(auxTransform);
+                        break;
+
+                    // Scaling Transformation
+                    case 3:
+                        auxTransform = -AXIS_TICK_REFERENCE;
+
+                        cout << "\nType the scaling factor (positive numbers only):";
+
+                        while (auxTransform < 0)
+                        {
+                            cout << "\n: ";
+                            cin >> auxTransform;
+                        }
+
+                        shapes[selectedShapeId].scaleShape(auxTransform);
+                        break;
+
+                    // Mirroring Transformation
+                    case 4:
+                        auxInput = 0;
+
+                        cout << "\nType the axis to perform the mirroring:" << endl;
+                        cout << "\n1 - X";
+                        cout << "\n2 - Y";
+                        cout << "\n3 - XY";
+
+                        while (auxInput < 1 or auxInput > 3)
+                        {
+                            cout << "\n: ";
+                            cin >> auxInput;
+                        }
+
+                        if(auxInput == 1)
+                            shapes[selectedShapeId].mirrorShape('x');
+
+                        else if (auxInput == 2)
+                            shapes[selectedShapeId].mirrorShape('y');
+
+                        else if (auxInput == 3)
+                        {
+                            shapes[selectedShapeId].mirrorShape('x');
+                            shapes[selectedShapeId].mirrorShape('y');
+                        }
+                        break;
+
+                    // Shearing Transformation
+                    case 5:
+                        auxInput = 0;
+                        auxTransform = -200;
+
+                        cout << "\nType the axis to perform the shearing:" << endl;
+                        cout << "\n1 - X";
+                        cout << "\n2 - Y";
+                        cout << "\n3 - XY (the same shearing factor will be applied for both axes)";
+
+                        while (auxInput < 1 or auxInput > 3)
+                        {
+                            cout << "\n: ";
+                            cin >> auxInput;
+                        }
+
+                        cout << "\nType the shearing value (-100 - 100):" << endl;
+
+                        while (auxTransform < -100 or auxTransform > 100)
+                        {
+                            cout << "\n: ";
+                            cin >> auxTransform;
+                        }
+
+                        if(auxInput == 1)
+                            shapes[selectedShapeId].shearShape('x', auxTransform/(10*AXIS_TICK_REFERENCE));
+
+                        else if(auxInput == 2)
+                            shapes[selectedShapeId].shearShape('y', auxTransform / (10 * AXIS_TICK_REFERENCE));
+
+                        else if (auxInput == 3)
+                        {
+                            shapes[selectedShapeId].shearShape('y', auxTransform / (10 * AXIS_TICK_REFERENCE));
+                            shapes[selectedShapeId].shearShape('x', auxTransform / (10 * AXIS_TICK_REFERENCE));
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
+
+
+
         //shapes[0].translateShape(double(2)/AXIS_TICK_REFERENCE, double(2)/AXIS_TICK_REFERENCE);
         //shapes[0].rotateShape(-45);
         //shapes[0].scaleShape(double(0.5));
         //shapes[0].mirrorShape('y');
-        //shapes[0].shearShape('x', double(-4)/AXIS_TICK_REFERENCE);
+        //shapes[0].shearShape('x', double(4)/AXIS_TICK_REFERENCE);
     }
 
     glfwTerminate();
