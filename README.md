@@ -8,7 +8,7 @@
 
     a) ~~Diagrama de Classes;~~
     
-    b) Diagrama de fluxo de software;
+    b) ~~Diagrama de fluxo de software;~~
     
     c) features do programa (basicamente os requisitos que ele pediu);
     
