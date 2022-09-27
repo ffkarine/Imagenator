@@ -6,7 +6,7 @@
 - [x] Já fizemo bastante coisa po
 - [ ] FAZER A DOCUMENTAÇÃO (E A APRESENTAÇÃO):
 
-    a) Diagrama de Classes;
+    a) ~~Diagrama de Classes;~~
     
     b) Diagrama de fluxo de software;
     
@@ -16,14 +16,14 @@
 # REQUISITOS
 - [x] ~~Permitir ao usuário escolher no mínimo as seguintes figuras geométricas planas regulares a serem desenhadas: Triângulo, Quadrado, Hexágono.~~
 - [x] ~~Permitir ao usuário digitar as coordenadas dos vértices de cada figura. Neste caso, os polígonos a serem desenhados poderão ser irregulares.~~
-- [ ] Permitir ao usuário utilizar cliques de mouse para determinar os vértices e/ou o centro de cada figura, no caso de polígonos irregulares.
+- [x] ~~Permitir ao usuário utilizar cliques de mouse para determinar os vértices e/ou o centro de cada figura, no caso de polígonos irregulares.~~
 
 - [x] ~~Permitir ao usuário digitar o ponto central e o tamanho da aresta (borda) de cada polígono. Neste caso os polígonos desenhados serão regulares.~~ 
 
 ``` diff
 +Feito. Parabén Karine</span>
 ```
-- [ ] Desenhar a figura na tela conforme parâmetros de entrada fornecidos pelo usuário (requisitos R1 a R4). Suportar o desenho e visualização de no mínimo 5 figuras simultaneamente.
+- [x] ~~Desenhar a figura na tela conforme parâmetros de entrada fornecidos pelo usuário (requisitos R1 a R4). Suportar o desenho e visualização de no mínimo 5 figuras simultaneamente.~~
 
 - [x] ~~Permitir escolher qualquer uma das seguintes TGs, a serem realizadas sobre uma figura já desenhada: Translação, Escala, Rotação, Reflexão, Cisalhamento~~
 - [x] ~~Conforme a TG escolhida, solicitar ao usuário os parâmetros correspondentes e necessários para realizar a transformação. O usuário deverá poder escolher os parâmetros livremente por digitação (proibido fixar os parâmetros no programa). 
@@ -72,11 +72,11 @@ No caso específico da rotação, a figura deve ser rotacionada sobre o mesmo �
 
 - [x] ~~Permitir apagar os polígonos desenhados e redesenhar outros polígonos ou usar outras opções (aplicar mais de uma transformação por exemplo) sem sair do programa.~~
 
-- [ ] Validar as coordenadas de entrada conforme segue:
+- [x] ~~Validar as coordenadas de entrada conforme segue:~~
 
     a) ~~As coordenadas devem estar dentro dos limites do sistema de coordenadas do universo (da tela);~~
     
-    b) Não permitir a entrada de pontos repetidos (iguais).
+    b) ~~Não permitir a entrada de pontos repetidos (iguais).~~
     
     c) ~~Permitir o desenho de polígonos convexos ou côncavos para figuras irregulares.~~
 
