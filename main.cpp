@@ -366,9 +366,10 @@ int prompt()
     cout << "\nChoose your option:" << endl;
     cout << "1 - Draw Figure" << endl;
     cout << "2 - Transform Figure" << endl;
-    cout << "3 - Delete Figure";
+    cout << "3 - Delete Figure" << endl;
+    cout << "4 - Quit";
 
-    while (mainOption < 1 or mainOption > 3)
+    while (mainOption < 1 or mainOption > 4)
     {
         cout << "\n: ";
         cin >> mainOption;
@@ -843,6 +844,12 @@ int main(void) {
                 if (auxInput == 1)
                     shapes.erase(shapes.begin() + selectedShapeId);
             }
+        }
+
+        //Quit Software
+        else if (mainOption == 4)
+        {
+            glfwSetWindowShouldClose(window, GLFW_TRUE);
         }
     }
 
